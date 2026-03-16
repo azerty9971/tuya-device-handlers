@@ -72,7 +72,7 @@ class AlarmStateWrapper(DPCodeEnumWrapper[TuyaAlarmControlPanelState]):
         return self._STATE_MAPPINGS.get(status)
 
 
-class AlarmActionWrapper(DPCodeEnumWrapper):
+class AlarmActionWrapper(DPCodeEnumWrapper[TuyaAlarmControlPanelAction]):
     """Wrapper for setting the alarm mode of a device."""
 
     _ACTION_MAPPINGS = {
