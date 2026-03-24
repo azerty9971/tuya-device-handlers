@@ -1,16 +1,13 @@
 """Tuya device wrapper."""
 
-from __future__ import annotations
-
 import json
-from typing import TYPE_CHECKING, Any
+from typing import Any
+
+from tuya_sharing import CustomerDevice  # type: ignore[import-untyped]
 
 from ..type_information import IntegerTypeInformation
 from ..utils import RemapHelper
 from .common import DPCodeIntegerWrapper, DPCodeJsonWrapper
-
-if TYPE_CHECKING:
-    from tuya_sharing import CustomerDevice  # type: ignore[import-untyped]
 
 
 class BrightnessWrapper(DPCodeIntegerWrapper[int]):

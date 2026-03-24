@@ -1,14 +1,11 @@
 """Tuya device wrapper."""
 
-from __future__ import annotations
+from typing import Self
 
-from typing import TYPE_CHECKING, Self
+from tuya_sharing import CustomerDevice  # type: ignore[import-untyped]
 
 from ..type_information import BitmapTypeInformation
 from .common import DPCodeBitmapWrapper, DPCodeWrapper
-
-if TYPE_CHECKING:
-    from tuya_sharing import CustomerDevice  # type: ignore[import-untyped]
 
 
 class DPCodeBitmapBitWrapper(DPCodeBitmapWrapper[bool]):

@@ -1,15 +1,12 @@
 """Tuya device wrapper."""
 
-from __future__ import annotations
+from typing import Any, Self
 
-from typing import TYPE_CHECKING, Any, Self
+from tuya_sharing import CustomerDevice  # type: ignore[import-untyped]
 
 from ..helpers.homeassistant import TuyaVacuumAction, TuyaVacuumActivity
 from .base import DeviceWrapper
 from .common import DPCodeBooleanWrapper, DPCodeEnumWrapper
-
-if TYPE_CHECKING:
-    from tuya_sharing import CustomerDevice  # type: ignore[import-untyped]
 
 
 class VacuumActivityWrapper(DeviceWrapper[TuyaVacuumActivity]):
