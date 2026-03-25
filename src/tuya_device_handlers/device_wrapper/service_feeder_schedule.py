@@ -32,8 +32,17 @@ class _DefaultFeederScheduleWrapper(DPCodeRawWrapper[list[FeederSchedule]]):
         self, dpcode: str, type_information: RawTypeInformation
     ) -> None:
         super().__init__(dpcode, type_information)
+        template: list[tuple[_TEMPLATE_KEY, int]] = [
+            ("days", 2),
+            ("hour", 2),
+            ("minute", 2),
+            ("portion", 2),
+            ("enabled", 2),
+        ]
+        day_mapping = [(i, i) for i in range(7)]
+
         self._template_encoder = _TemplateEncoder(
-            _TEMPLATE_FULL, _DayTransformer(_DAY_MAPPING)
+            template, _DayTransformer(day_mapping)
         )
 
     def read_device_status(
@@ -43,12 +52,9 @@ class _DefaultFeederScheduleWrapper(DPCodeRawWrapper[list[FeederSchedule]]):
         if (data := self._read_dpcode_value(device)) is None:
             return None
         hex_str = "".join(f"{byte:02x}" for byte in data)
-        return [
-            FeederSchedule(**entry)
-            for entry in _internal_list_to_home_assistant(
-                self._template_encoder.decode(hex_str)
-            )
-        ]
+        return _internal_list_to_home_assistant(
+            self._template_encoder.decode(hex_str)
+        )
 
     def _convert_value_to_raw_value(
         self, device: CustomerDevice, value: list[FeederSchedule]
@@ -74,14 +80,6 @@ def get_feeder_schedule_wrapper(
 
 # Internal representation of a feeding time entry to keep it easier to tell what we expect.
 _TEMPLATE_KEY = Literal["days", "hour", "minute", "portion", "enabled"]
-_TEMPLATE_FULL: list[tuple[_TEMPLATE_KEY, int]] = [
-    ("days", 2),
-    ("hour", 2),
-    ("minute", 2),
-    ("portion", 2),
-    ("enabled", 2),
-]
-_DAY_MAPPING = [(i, i) for i in range(7)]
 
 
 class _DaysOfWeek(IntFlag):
@@ -167,15 +165,15 @@ def _internal_list_to_home_assistant(
 class _DayTransformer:
     """Helper class to encode/decode days between bitmap and list of names."""
 
-    def __init__(self, mapping: list[tuple[int, int]]) -> None:
+    def __init__(self, day_mapping: list[tuple[int, int]]) -> None:
         """mapping: list of (internal_bit, device_bit)."""
-        self._mapping = mapping
+        self._day_mapping = day_mapping
 
     def encode_entry(
         self, entry: _InternalFeederSchedule
     ) -> _InternalFeederSchedule:
         val = 0
-        for internal, device in self._mapping:
+        for internal, device in self._day_mapping:
             if entry["days"] & (1 << internal):
                 val |= 1 << device
         entry["days"] = _DaysOfWeek(val & 0x7F)
@@ -186,7 +184,7 @@ class _DayTransformer:
     ) -> _InternalFeederSchedule:
         val = _DaysOfWeek(0)
         masked = entry["days"] & 0x7F
-        for internal, device in self._mapping:
+        for internal, device in self._day_mapping:
             if masked & (1 << device):
                 val |= 1 << internal
         entry["days"] = val
