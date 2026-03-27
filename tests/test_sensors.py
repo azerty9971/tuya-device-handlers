@@ -8,12 +8,7 @@ from syrupy.assertion import SnapshotAssertion
 from syrupy.filters import props
 from tuya_sharing import CustomerDevice  # type: ignore[import-untyped]
 
-from tuya_device_handlers.builder import TuyaSensorDefinition
-from tuya_device_handlers.device_wrapper.common import (
-    DPCodeEnumWrapper,
-    DPCodeIntegerWrapper,
-    DPCodeWrapper,
-)
+from tuya_device_handlers.definition.sensor import TuyaSensorDefinition
 from tuya_device_handlers.registry import QuirksRegistry
 
 from . import create_device
@@ -24,30 +19,12 @@ def _get_entity_details(
     definition: TuyaSensorDefinition, device: CustomerDevice
 ) -> dict[str, Any]:
     """Generate snapshot details."""
-    entity_details: dict[str, Any] = {
-        "dp_code": None,
-        "state": None,
-        "unit": None,
-    }
+    entity_details: dict[str, Any] = {}
 
-    if (dp_definition := definition.dp_type(device)) and isinstance(
-        dp_definition, DPCodeWrapper
-    ):
-        entity_details["dp_code"] = dp_definition.dpcode
-        status = device.status.get(definition.key)
-
-        if isinstance(dp_definition, DPCodeEnumWrapper):
-            if (
-                status is not None
-                and status not in dp_definition.type_information.range
-            ):
-                status = None
-        elif isinstance(dp_definition, DPCodeIntegerWrapper):
-            entity_details["unit"] = dp_definition.type_information.unit
-            if status is not None:
-                status = dp_definition.type_information.scale_value(status)
-
-        entity_details["state"] = status
+    if (wrapper := definition.sensor_wrapper) is not None:
+        entity_details["options"] = wrapper.options
+        entity_details["state"] = wrapper.read_device_status(device)
+        entity_details["unit"] = wrapper.native_unit
 
     return entity_details
 
@@ -62,12 +39,17 @@ def test_entities(
     device = create_device(fixture_filename)
 
     quirk = filled_quirks_registry.get_quirk_for_device(device)
-    assert quirk is not None
-    for definition in quirk.sensor_definitions:
-        assert dataclasses.asdict(definition) == snapshot(
-            name=f"{definition.key}-definition",
-            exclude=props("dp_type"),
+    if quirk is None or quirk.sensor_quirks is None:
+        return
+    for entity_quirk in quirk.sensor_quirks:
+        definition = entity_quirk.definition_fn(device)
+        if definition is None:
+            continue
+
+        assert dataclasses.asdict(entity_quirk) == snapshot(
+            name=f"{entity_quirk.key}-definition",
+            exclude=props("definition_fn"),
         )
         assert _get_entity_details(definition, device) == snapshot(
-            name=f"{definition.key}-state"
+            name=f"{entity_quirk.key}-state"
         )

@@ -8,8 +8,7 @@ from syrupy.assertion import SnapshotAssertion
 from syrupy.filters import props
 from tuya_sharing import CustomerDevice  # type: ignore[import-untyped]
 
-from tuya_device_handlers.builder import TuyaSelectDefinition
-from tuya_device_handlers.device_wrapper.common import DPCodeEnumWrapper
+from tuya_device_handlers.definition.select import TuyaSelectDefinition
 from tuya_device_handlers.registry import QuirksRegistry
 
 from . import create_device
@@ -20,21 +19,11 @@ def _get_entity_details(
     definition: TuyaSelectDefinition, device: CustomerDevice
 ) -> dict[str, Any]:
     """Generate snapshot details."""
-    entity_details: dict[str, Any] = {
-        "dp_code": None,
-        "options": None,
-        "state": None,
-    }
+    entity_details: dict[str, Any] = {}
 
-    if (
-        enum_definition := definition.dp_type(device)
-    ) is not None and isinstance(enum_definition, DPCodeEnumWrapper):
-        entity_details["dp_code"] = enum_definition.dpcode
-        entity_details["options"] = enum_definition.options
-        if (
-            status := device.status.get(definition.key)
-        ) is not None and status in enum_definition.options:
-            entity_details["state"] = status
+    if (wrapper := definition.select_wrapper) is not None:
+        entity_details["options"] = wrapper.options
+        entity_details["state"] = wrapper.read_device_status(device)
 
     return entity_details
 
@@ -49,12 +38,17 @@ def test_entities(
     device = create_device(fixture_filename)
 
     quirk = filled_quirks_registry.get_quirk_for_device(device)
-    assert quirk is not None
-    for definition in quirk.select_definitions:
-        assert dataclasses.asdict(definition) == snapshot(
-            name=f"{definition.key}-definition",
-            exclude=props("dp_type"),
+    if quirk is None or quirk.select_quirks is None:
+        return
+    for entity_quirk in quirk.select_quirks:
+        definition = entity_quirk.definition_fn(device)
+        if definition is None:
+            continue
+
+        assert dataclasses.asdict(entity_quirk) == snapshot(
+            name=f"{entity_quirk.key}-definition",
+            exclude=props("definition_fn"),
         )
         assert _get_entity_details(definition, device) == snapshot(
-            name=f"{definition.key}-state"
+            name=f"{entity_quirk.key}-state"
         )
