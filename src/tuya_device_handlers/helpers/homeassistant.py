@@ -43,6 +43,94 @@ class TuyaAlarmControlPanelAction(StrEnum):
     TRIGGER = "trigger"
 
 
+class TuyaBinarySensorDeviceClass(StrEnum):
+    """Device class for binary sensors."""
+
+    # On means low, Off means normal
+    BATTERY = "battery"
+
+    # On means charging, Off means not charging
+    BATTERY_CHARGING = "battery_charging"
+
+    # On means carbon monoxide detected, Off means no carbon monoxide (clear)
+    CO = "carbon_monoxide"
+
+    # On means cold, Off means normal
+    COLD = "cold"
+
+    # On means connected, Off means disconnected
+    CONNECTIVITY = "connectivity"
+
+    # On means open, Off means closed
+    DOOR = "door"
+
+    # On means open, Off means closed
+    GARAGE_DOOR = "garage_door"
+
+    # On means gas detected, Off means no gas (clear)
+    GAS = "gas"
+
+    # On means hot, Off means normal
+    HEAT = "heat"
+
+    # On means light detected, Off means no light
+    LIGHT = "light"
+
+    # On means open (unlocked), Off means closed (locked)
+    LOCK = "lock"
+
+    # On means wet, Off means dry
+    MOISTURE = "moisture"
+
+    # On means motion detected, Off means no motion (clear)
+    MOTION = "motion"
+
+    # On means moving, Off means not moving (stopped)
+    MOVING = "moving"
+
+    # On means occupied, Off means not occupied (clear)
+    OCCUPANCY = "occupancy"
+
+    # On means open, Off means closed
+    OPENING = "opening"
+
+    # On means plugged in, Off means unplugged
+    PLUG = "plug"
+
+    # On means power detected, Off means no power
+    POWER = "power"
+
+    # On means home, Off means away
+    PRESENCE = "presence"
+
+    # On means problem detected, Off means no problem (OK)
+    PROBLEM = "problem"
+
+    # On means running, Off means not running
+    RUNNING = "running"
+
+    # On means unsafe, Off means safe
+    SAFETY = "safety"
+
+    # On means smoke detected, Off means no smoke (clear)
+    SMOKE = "smoke"
+
+    # On means sound detected, Off means no sound (clear)
+    SOUND = "sound"
+
+    # On means tampering detected, Off means no tampering (clear)
+    TAMPER = "tamper"
+
+    # On means update available, Off means up-to-date
+    UPDATE = "update"
+
+    # On means vibration detected, Off means no vibration
+    VIBRATION = "vibration"
+
+    # On means open, Off means closed
+    WINDOW = "window"
+
+
 class TuyaClimateHVACMode(StrEnum):
     """HVAC mode for climate devices."""
 
@@ -103,11 +191,420 @@ class TuyaCoverDeviceClass(StrEnum):
     WINDOW = "window"
 
 
+class TuyaEventDeviceClass(StrEnum):
+    """Device class for events."""
+
+    DOORBELL = "doorbell"
+    BUTTON = "button"
+    MOTION = "motion"
+
+
 class TuyaFanDirection(StrEnum):
     """Fan direction for fan devices."""
 
     FORWARD = "forward"
     REVERSE = "reverse"
+
+
+class TuyaHumidifierDeviceClass(StrEnum):
+    """Device class for humidifiers."""
+
+    HUMIDIFIER = "humidifier"
+    DEHUMIDIFIER = "dehumidifier"
+
+
+class TuyaNumberDeviceClass(StrEnum):
+    """Device class for numbers."""
+
+    # NumberDeviceClass should be aligned with SensorDeviceClass
+    ABSOLUTE_HUMIDITY = "absolute_humidity"
+    """Absolute humidity.
+
+    Unit of measurement: `g/m³`, `mg/m³`
+    """
+
+    APPARENT_POWER = "apparent_power"
+    """Apparent power.
+
+    Unit of measurement: `mVA`, `VA`, `kVA`
+    """
+
+    AQI = "aqi"
+    """Air Quality Index.
+
+    Unit of measurement: `None`
+    """
+
+    AREA = "area"
+    """Area
+
+    Unit of measurement: `UnitOfArea` units
+    """
+
+    ATMOSPHERIC_PRESSURE = "atmospheric_pressure"
+    """Atmospheric pressure.
+
+    Unit of measurement: `UnitOfPressure` units
+    """
+
+    BATTERY = "battery"
+    """Percentage of battery that is left.
+
+    Unit of measurement: `%`
+    """
+
+    BLOOD_GLUCOSE_CONCENTRATION = "blood_glucose_concentration"
+    """Blood glucose concentration.
+
+    Unit of measurement: `mg/dL`, `mmol/L`
+    """
+
+    CO = "carbon_monoxide"
+    """Carbon Monoxide gas concentration.
+
+    Unit of measurement: `ppb` (parts per billion), `ppm` (parts per million), `mg/m³`, `μg/m³`
+    """
+
+    CO2 = "carbon_dioxide"
+    """Carbon Dioxide gas concentration.
+
+    Unit of measurement: `ppm` (parts per million)
+    """
+
+    CONDUCTIVITY = "conductivity"
+    """Conductivity.
+
+    Unit of measurement: `S/cm`, `mS/cm`, `μS/cm`
+    """
+
+    CURRENT = "current"
+    """Current.
+
+    Unit of measurement: `A`,  `mA`
+    """
+
+    DATA_RATE = "data_rate"
+    """Data rate.
+
+    Unit of measurement: UnitOfDataRate
+    """
+
+    DATA_SIZE = "data_size"
+    """Data size.
+
+    Unit of measurement: UnitOfInformation
+    """
+
+    DISTANCE = "distance"
+    """Generic distance.
+
+    Unit of measurement: `LENGTH_*` units
+    - SI /metric: `mm`, `cm`, `m`, `km`
+    - USCS / imperial: `in`, `ft`, `yd`, `mi`
+    """
+
+    DURATION = "duration"
+    """Fixed duration.
+
+    Unit of measurement: `d`, `h`, `min`, `s`, `ms`, `μs`
+    """
+
+    ENERGY = "energy"
+    """Energy.
+
+    Unit of measurement: `J`, `kJ`, `MJ`, `GJ`, `mWh`, `Wh`, `kWh`, `MWh`, `GWh`, `TWh`, `cal`, `kcal`, `Mcal`, `Gcal`
+    """
+
+    ENERGY_DISTANCE = "energy_distance"
+    """Energy distance.
+
+    Use this device class for sensors measuring energy by distance, for example the amount
+    of electric energy consumed by an electric car.
+
+    Unit of measurement: `kWh/100km`, `Wh/km`, `mi/kWh`, `km/kWh`
+    """
+
+    ENERGY_STORAGE = "energy_storage"
+    """Stored energy.
+
+    Use this device class for sensors measuring stored energy, for example the amount
+    of electric energy currently stored in a battery or the capacity of a battery.
+
+    Unit of measurement: `J`, `kJ`, `MJ`, `GJ`, `mWh`, `Wh`, `kWh`, `MWh`, `GWh`, `TWh`, `cal`, `kcal`, `Mcal`, `Gcal`
+    """
+
+    FREQUENCY = "frequency"
+    """Frequency.
+
+    Unit of measurement: `Hz`, `kHz`, `MHz`, `GHz`
+    """
+
+    GAS = "gas"
+    """Gas.
+
+    Unit of measurement:
+    - SI / metric: `L`, `m³`
+    - USCS / imperial: `ft³`, `CCF`, `MCF`
+    """
+
+    HUMIDITY = "humidity"
+    """Relative humidity.
+
+    Unit of measurement: `%`
+    """
+
+    ILLUMINANCE = "illuminance"
+    """Illuminance.
+
+    Unit of measurement: `lx`
+    """
+
+    IRRADIANCE = "irradiance"
+    """Irradiance.
+
+    Unit of measurement:
+    - SI / metric: `W/m²`
+    - USCS / imperial: `BTU/(h⋅ft²)`
+    """
+
+    MOISTURE = "moisture"
+    """Moisture.
+
+    Unit of measurement: `%`
+    """
+
+    MONETARY = "monetary"
+    """Amount of money.
+
+    Unit of measurement: ISO4217 currency code
+
+    See https://en.wikipedia.org/wiki/ISO_4217#Active_codes for active codes
+    """
+
+    NITROGEN_DIOXIDE = "nitrogen_dioxide"
+    """Amount of NO2.
+
+    Unit of measurement: `ppb` (parts per billion), `ppm` (parts per million), `μg/m³`
+    """
+
+    NITROGEN_MONOXIDE = "nitrogen_monoxide"
+    """Amount of NO.
+
+    Unit of measurement: `ppb` (parts per billion), `μg/m³`
+    """
+
+    NITROUS_OXIDE = "nitrous_oxide"
+    """Amount of N2O.
+
+    Unit of measurement: `μg/m³`
+    """
+
+    OZONE = "ozone"
+    """Amount of O3.
+
+    Unit of measurement: `ppb` (parts per billion), `ppm` (parts per million), `μg/m³`
+    """
+
+    PH = "ph"
+    """Potential hydrogen (acidity/alkalinity).
+
+    Unit of measurement: Unitless
+    """
+
+    PM1 = "pm1"
+    """Particulate matter <= 1 μm.
+
+    Unit of measurement: `μg/m³`
+    """
+
+    PM10 = "pm10"
+    """Particulate matter <= 10 μm.
+
+    Unit of measurement: `μg/m³`
+    """
+
+    PM25 = "pm25"
+    """Particulate matter <= 2.5 μm.
+
+    Unit of measurement: `μg/m³`
+    """
+
+    PM4 = "pm4"
+    """Particulate matter <= 4 μm.
+
+    Unit of measurement: `μg/m³`
+    """
+
+    POWER_FACTOR = "power_factor"
+    """Power factor.
+
+    Unit of measurement: `%`, `None`
+    """
+
+    POWER = "power"
+    """Power.
+
+    Unit of measurement: `mW`, `W`, `kW`, `MW`, `GW`, `TW`, `BTU/h`
+    """
+
+    PRECIPITATION = "precipitation"
+    """Accumulated precipitation.
+
+    Unit of measurement: UnitOfPrecipitationDepth
+    - SI / metric: `cm`, `mm`
+    - USCS / imperial: `in`
+    """
+
+    PRECIPITATION_INTENSITY = "precipitation_intensity"
+    """Precipitation intensity.
+
+    Unit of measurement: UnitOfVolumetricFlux
+    - SI /metric: `mm/d`, `mm/h`
+    - USCS / imperial: `in/d`, `in/h`
+    """
+
+    PRESSURE = "pressure"
+    """Pressure.
+
+    Unit of measurement:
+    - `mbar`, `cbar`, `bar`
+    - `mPa`, `Pa`, `hPa`, `kPa`
+    - `inHg`
+    - `psi`
+    - `inH₂O`
+    """
+
+    REACTIVE_ENERGY = "reactive_energy"
+    """Reactive energy.
+
+    Unit of measurement: `varh`, `kvarh`
+    """
+
+    REACTIVE_POWER = "reactive_power"
+    """Reactive power.
+
+    Unit of measurement: `mvar`, `var`, `kvar`
+    """
+
+    SIGNAL_STRENGTH = "signal_strength"
+    """Signal strength.
+
+    Unit of measurement: `dB`, `dBm`
+    """
+
+    SOUND_PRESSURE = "sound_pressure"
+    """Sound pressure.
+
+    Unit of measurement: `dB`, `dBA`
+    """
+
+    SPEED = "speed"
+    """Generic speed.
+
+    Unit of measurement: `SPEED_*` units or `UnitOfVolumetricFlux`
+    - SI /metric: `mm/d`, `mm/h`, `m/s`, `km/h`
+    - USCS / imperial: `in/d`, `in/h`, `ft/s`, `mph`
+    - Nautical: `kn`
+    """
+
+    SULPHUR_DIOXIDE = "sulphur_dioxide"
+    """Amount of SO2.
+
+    Unit of measurement: `ppb` (parts per billion), `μg/m³`
+    """
+
+    TEMPERATURE = "temperature"
+    """Temperature.
+
+    Unit of measurement: `°C`, `°F`, `K`
+    """
+
+    TEMPERATURE_DELTA = "temperature_delta"
+    """Difference of temperatures - Temperature range.
+
+    Unit of measurement: `°C`, `°F`, `K`
+    """
+
+    VOLATILE_ORGANIC_COMPOUNDS = "volatile_organic_compounds"
+    """Amount of VOC.
+
+    Unit of measurement: `μg/m³`, `mg/m³`
+    """
+
+    VOLATILE_ORGANIC_COMPOUNDS_PARTS = "volatile_organic_compounds_parts"
+    """Ratio of VOC.
+
+    Unit of measurement: `ppm`, `ppb`
+    """
+
+    VOLTAGE = "voltage"
+    """Voltage.
+
+    Unit of measurement: `V`, `mV`, `μV`, `kV`, `MV`
+    """
+
+    VOLUME = "volume"
+    """Generic volume.
+
+    Unit of measurement: `VOLUME_*` units
+    - SI / metric: `mL`, `L`, `m³`
+    - USCS / imperial: `ft³`, `CCF`, `MCF`, `fl. oz.`, `gal` (warning: volumes expressed in
+    USCS/imperial units are currently assumed to be US volumes)
+    """
+
+    VOLUME_STORAGE = "volume_storage"
+    """Generic stored volume.
+
+    Use this device class for sensors measuring stored volume, for example the amount
+    of fuel in a fuel tank.
+
+    Unit of measurement: `VOLUME_*` units
+    - SI / metric: `mL`, `L`, `m³`
+    - USCS / imperial: `ft³`, `CCF`, `MCF`, `fl. oz.`, `gal` (warning: volumes expressed in
+    USCS/imperial units are currently assumed to be US volumes)
+    """
+
+    VOLUME_FLOW_RATE = "volume_flow_rate"
+    """Generic flow rate
+
+    Unit of measurement: UnitOfVolumeFlowRate
+    - SI / metric: `m³/h`, `m³/min`, `m³/s`, `L/h`, `L/min`, `L/s`, `mL/s`
+    - USCS / imperial: `ft³/min`, `gal/min`, `gal/d`
+    """
+
+    WATER = "water"
+    """Water.
+
+    Unit of measurement:
+    - SI / metric: `m³`, `L`
+    - USCS / imperial: `ft³`, `CCF`, `MCF`, `gal` (warning: volumes expressed in
+    USCS/imperial units are currently assumed to be US volumes)
+    """
+
+    WEIGHT = "weight"
+    """Generic weight, represents a measurement of an object's mass.
+
+    Weight is used instead of mass to fit with every day language.
+
+    Unit of measurement: `MASS_*` units
+    - SI / metric: `μg`, `mg`, `g`, `kg`
+    - USCS / imperial: `oz`, `lb`
+    """
+
+    WIND_DIRECTION = "wind_direction"
+    """Wind direction.
+
+    Unit of measurement: `°`
+    """
+
+    WIND_SPEED = "wind_speed"
+    """Wind speed.
+
+    Unit of measurement: `SPEED_*` units
+    - SI /metric: `m/s`, `km/h`
+    - USCS / imperial: `ft/s`, `mph`
+    - Nautical: `kn`
+    """
 
 
 class TuyaSensorDeviceClass(StrEnum):
@@ -580,3 +1077,11 @@ class TuyaVacuumAction(StrEnum):
     PAUSE = "pause"
     RETURN_TO_BASE = "return_to_base"
     LOCATE = "locate"
+
+
+class TuyaValveDeviceClass(StrEnum):
+    """Device class for valve."""
+
+    # Refer to the valve dev docs for device class descriptions
+    WATER = "water"
+    GAS = "gas"
