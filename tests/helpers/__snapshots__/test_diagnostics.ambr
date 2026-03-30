@@ -1,0 +1,198 @@
+# serializer version: 1
+# name: test_get_default_definition_fails
+  dict({
+    'active_time': '2025-07-14T06:32:48+00:00',
+    'category': 'sfkzq',
+    'create_time': '2025-07-14T06:32:48+00:00',
+    'function': dict({
+      'countdown_1': dict({
+        'type': 'Integer',
+        'value': '{"unit": "min", "min": 1, "max": 1439, "scale": 0, "step": 1}',
+      }),
+      'countdown_2': dict({
+        'type': 'Integer',
+        'value': '{"unit": "min", "min": 1, "max": 1439, "scale": 0, "step": 1}',
+      }),
+      'countdown_3': dict({
+        'type': 'Integer',
+        'value': '{"unit": "min", "min": 1, "max": 1439, "scale": 0, "step": 1}',
+      }),
+      'countdown_4': dict({
+        'type': 'Integer',
+        'value': '{"unit": "min", "min": 1, "max": 1439, "scale": 0, "step": 1}',
+      }),
+      'countdown_5': dict({
+        'type': 'Integer',
+        'value': '{"unit": "min", "min": 1, "max": 1439, "scale": 0, "step": 1}',
+      }),
+      'countdown_6': dict({
+        'type': 'Integer',
+        'value': '{"unit": "min", "min": 1, "max": 1439, "scale": 0, "step": 1}',
+      }),
+      'countdown_7': dict({
+        'type': 'Integer',
+        'value': '{"unit": "min", "min": 1, "max": 1439, "scale": 0, "step": 1}',
+      }),
+      'countdown_8': dict({
+        'type': 'Integer',
+        'value': '{"unit": "min", "min": 1, "max": 1439, "scale": 0, "step": 1}',
+      }),
+      'switch_1': dict({
+        'type': 'Boolean',
+        'value': '{}',
+      }),
+      'switch_2': dict({
+        'type': 'Boolean',
+        'value': '{}',
+      }),
+      'switch_3': dict({
+        'type': 'Boolean',
+        'value': '{}',
+      }),
+      'switch_4': dict({
+        'type': 'Boolean',
+        'value': '{}',
+      }),
+      'switch_5': dict({
+        'type': 'Boolean',
+        'value': '{}',
+      }),
+      'switch_6': dict({
+        'type': 'Boolean',
+        'value': '{}',
+      }),
+      'switch_7': dict({
+        'type': 'Boolean',
+        'value': '{}',
+      }),
+      'switch_8': dict({
+        'type': 'Boolean',
+        'value': '{}',
+      }),
+    }),
+    'id': 'cijerqyssiwrf7de',
+    'local_strategy': None,
+    'name': '接HA水阀',
+    'online': True,
+    'product_id': 'ed7frwissyqrejic',
+    'product_name': '接HA水阀',
+    'set_up': True,
+    'status': dict({
+      'battery_percentage': 0,
+      'battery_state': 'low',
+      'countdown_1': 1,
+      'countdown_2': 1,
+      'countdown_3': 3,
+      'countdown_4': 2,
+      'countdown_5': 2,
+      'countdown_6': 3,
+      'countdown_7': 1,
+      'countdown_8': 1,
+      'switch_1': True,
+      'switch_2': False,
+      'switch_3': True,
+      'switch_4': False,
+      'switch_5': True,
+      'switch_6': False,
+      'switch_7': True,
+      'switch_8': False,
+    }),
+    'status_range': dict({
+      'battery_percentage': dict({
+        'report_type': None,
+        'type': 'Integer',
+        'value': '{"unit": "%", "min": 0, "max": 100, "scale": 0, "step": 1}',
+      }),
+      'battery_state': dict({
+        'report_type': None,
+        'type': 'Enum',
+        'value': '{"range": ["low", "middle", "high"]}',
+      }),
+      'countdown_1': dict({
+        'report_type': None,
+        'type': 'Integer',
+        'value': '{"unit": "min", "min": 1, "max": 1439, "scale": 0, "step": 1}',
+      }),
+      'countdown_2': dict({
+        'report_type': None,
+        'type': 'Integer',
+        'value': '{"unit": "min", "min": 1, "max": 1439, "scale": 0, "step": 1}',
+      }),
+      'countdown_3': dict({
+        'report_type': None,
+        'type': 'Integer',
+        'value': '{"unit": "min", "min": 1, "max": 1439, "scale": 0, "step": 1}',
+      }),
+      'countdown_4': dict({
+        'report_type': None,
+        'type': 'Integer',
+        'value': '{"unit": "min", "min": 1, "max": 1439, "scale": 0, "step": 1}',
+      }),
+      'countdown_5': dict({
+        'report_type': None,
+        'type': 'Integer',
+        'value': '{"unit": "min", "min": 1, "max": 1439, "scale": 0, "step": 1}',
+      }),
+      'countdown_6': dict({
+        'report_type': None,
+        'type': 'Integer',
+        'value': '{"unit": "min", "min": 1, "max": 1439, "scale": 0, "step": 1}',
+      }),
+      'countdown_7': dict({
+        'report_type': None,
+        'type': 'Integer',
+        'value': '{"unit": "min", "min": 1, "max": 1439, "scale": 0, "step": 1}',
+      }),
+      'countdown_8': dict({
+        'report_type': None,
+        'type': 'Integer',
+        'value': '{"unit": "min", "min": 1, "max": 1439, "scale": 0, "step": 1}',
+      }),
+      'switch_1': dict({
+        'report_type': None,
+        'type': 'Boolean',
+        'value': '{}',
+      }),
+      'switch_2': dict({
+        'report_type': None,
+        'type': 'Boolean',
+        'value': '{}',
+      }),
+      'switch_3': dict({
+        'report_type': None,
+        'type': 'Boolean',
+        'value': '{}',
+      }),
+      'switch_4': dict({
+        'report_type': None,
+        'type': 'Boolean',
+        'value': '{}',
+      }),
+      'switch_5': dict({
+        'report_type': None,
+        'type': 'Boolean',
+        'value': '{}',
+      }),
+      'switch_6': dict({
+        'report_type': None,
+        'type': 'Boolean',
+        'value': '{}',
+      }),
+      'switch_7': dict({
+        'report_type': None,
+        'type': 'Boolean',
+        'value': '{}',
+      }),
+      'switch_8': dict({
+        'report_type': None,
+        'type': 'Boolean',
+        'value': '{}',
+      }),
+    }),
+    'sub': False,
+    'support_local': True,
+    'time_zone': '+08:00',
+    'update_time': '2025-07-14T06:32:48+00:00',
+    'warnings': None,
+  })
+# ---
