@@ -3,9 +3,9 @@
 from collections.abc import Sequence
 import logging
 import pathlib
-from typing import Protocol, Self
+from typing import Any, Protocol, Self
 
-from tuya_sharing import CustomerDevice
+from tuya_sharing import CustomerDevice, DeviceFunction, DeviceStatusRange
 
 from tuya_device_handlers.definition.alarm_control_panel import (
     AlarmControlPanelQuirk,
@@ -32,6 +32,10 @@ _LOGGER = logging.getLogger(__name__)
 
 class DeviceQuirkProtocol(Protocol):
     """Protocol for a Tuya device quirk."""
+
+    original_function: dict[str, DeviceFunction]
+    original_local_strategy: dict[int, dict[str, Any]]
+    original_status_range: dict[str, DeviceStatusRange]
 
     @property
     def alarm_control_panel_quirks(
@@ -75,6 +79,8 @@ class DeviceQuirkProtocol(Protocol):
     @property
     def quirk_file_line(self) -> int: ...
 
+    def initialise_device(self, device: CustomerDevice) -> None: ...
+
 
 class QuirksRegistry:
     """Registry for Tuya quirks."""
@@ -106,6 +112,11 @@ class QuirksRegistry:
     ) -> DeviceQuirkProtocol | None:
         """Get the quirk for a specific device."""
         return self._quirks.get(device.product_id)
+
+    def initialise_device_quirk(self, device: CustomerDevice) -> None:
+        """Apply the quirk to a specific device."""
+        if quirk := self._quirks.get(device.product_id):
+            quirk.initialise_device(device)
 
     def purge_custom_quirks(self, custom_quirks_root: str) -> None:
         """Purge custom quirks from the registry."""

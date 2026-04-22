@@ -6,9 +6,9 @@ import functools
 import inspect
 import json
 import pathlib
-from typing import TYPE_CHECKING, Self
+from typing import TYPE_CHECKING, Any, Self
 
-from tuya_sharing import CustomerDevice
+from tuya_sharing import CustomerDevice, DeviceFunction, DeviceStatusRange
 
 from tuya_device_handlers.const import DPMode, DPType
 from tuya_device_handlers.definition.alarm_control_panel import (
@@ -111,6 +111,36 @@ class DatapointDefinition:
     values: str | None = None
     report_type: str | None = None
 
+    def to_function(self) -> DeviceFunction:
+        """Convert to DeviceFunction."""
+        return DeviceFunction(
+            code=self.dpcode,
+            type=self.dptype.value,
+            values=self.values,
+        )
+
+    def to_local_strategy(self, product_id: str) -> dict[str, Any]:
+        """Convert to LocalStrategy."""
+        return {
+            "value_convert": "default",
+            "status_code": self.dpcode,
+            "config_item": {
+                "statusFormat": json.dumps({self.dpcode: "$"}),
+                "valueDesc": self.values,
+                "valueType": self.dptype.value,
+                "enumMappingMap": {},
+                "pid": product_id,
+            },
+        }
+
+    def to_status_range(self) -> DeviceStatusRange:
+        """Convert to DeviceStatusRange."""
+        return DeviceStatusRange(
+            code=self.dpcode,
+            type=self.dptype.value,
+            values=self.values,
+        )
+
 
 class DeviceQuirk(DeviceQuirkProtocol):
     """Quirk for Tuya device."""
@@ -159,6 +189,43 @@ class DeviceQuirk(DeviceQuirkProtocol):
     def quirk_file_line(self) -> int:
         """Get the line number of the quirk."""
         return self._quirk_file_line
+
+    def initialise_device(self, device: CustomerDevice) -> None:
+        """Initialise device."""
+        self.original_function = device.function.copy()
+        self.original_local_strategy = device.local_strategy.copy()
+        self.original_status_range = device.status_range.copy()
+
+        for key, definition in self._datapoint_definitions.items():
+            dpid, dpcode = key
+
+            # Remove definition if explicit None
+            if definition is None:
+                device.function.pop(dpcode, None)
+                device.local_strategy.pop(dpid, None)
+                device.status.pop(dpcode, None)
+                device.status_range.pop(dpcode, None)
+                continue
+
+            # Add or remove function/status_range attributes
+            if DPMode.READ in definition.dpmode:
+                device.status_range[definition.dpcode] = (
+                    definition.to_status_range()
+                )
+            else:
+                device.status_range.pop(definition.dpcode, None)
+
+            if DPMode.WRITE in definition.dpmode:
+                device.function[definition.dpcode] = definition.to_function()
+            else:
+                device.function.pop(definition.dpcode, None)
+
+            if device.support_local:
+                device.local_strategy[definition.dpid] = (
+                    definition.to_local_strategy(device.product_id)
+                )
+            else:
+                device.local_strategy.pop(definition.dpid, None)
 
     def applies_to(self, *, product_id: str) -> Self:
         """Set the device type the quirk applies to."""
