@@ -152,6 +152,12 @@ def _get_color_data_wrapper(
     if function_data := json.loads(
         color_data_wrapper.type_information.type_data
     ):
+        if "h" not in function_data:
+            function_data["h"] = {"min": 0, "max": 360}
+        if "s" not in function_data:
+            function_data["s"] = {"min": 0, "max": 255}
+        if "v" not in function_data:
+            function_data["v"] = {"min": 0, "max": 255}
         color_data_wrapper.h_type = RemapHelper.from_function_data(
             cast(dict[str, Any], function_data["h"]), 0, 360
         )
