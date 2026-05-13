@@ -53,6 +53,7 @@ def test_get_default_definition_fails() -> None:
         fallback_color_data_mode=FallbackColorDataMode.V1,
     )
 
+
 def test_missing_colour_data_hsv() -> None:
     """Test missing_colour_data_hsv."""
     device = create_device("jsq_op2lzjcj7fdfhid8.json")
