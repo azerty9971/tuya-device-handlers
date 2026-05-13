@@ -118,7 +118,7 @@ def _get_brightness_wrapper(
     ):
         brightness_wrapper.brightness_max = brightness_max
         brightness_wrapper.brightness_max_remap = (
-                RemapHelper.from_type_information(
+            RemapHelper.from_type_information(
                 brightness_max.type_information, 0, 255
             )
         )
