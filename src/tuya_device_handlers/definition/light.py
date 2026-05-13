@@ -117,19 +117,15 @@ def _get_brightness_wrapper(
         device, brightness_max_dpcode, prefer_function=True
     ):
         brightness_wrapper.brightness_max = brightness_max
-        brightness_wrapper.brightness_max_remap = (
-            RemapHelper.from_type_information(
-                brightness_max.type_information, 0, 255
-            )
+        brightness_wrapper.brightness_max_remap = RemapHelper.from_type_information(
+            brightness_max.type_information, 0, 255
         )
     if brightness_min := DPCodeIntegerWrapper.find_dpcode(
         device, brightness_min_dpcode, prefer_function=True
     ):
         brightness_wrapper.brightness_min = brightness_min
-        brightness_wrapper.brightness_min_remap = (
-            RemapHelper.from_type_information(
-                brightness_min.type_information, 0, 255
-            )
+        brightness_wrapper.brightness_min_remap = RemapHelper.from_type_information(
+            brightness_min.type_information, 0, 255
         )
     return brightness_wrapper
 
@@ -149,23 +145,18 @@ def _get_color_data_wrapper(
         return None
 
     # Fetch color data type information
-    if function_data := json.loads(
-        color_data_wrapper.type_information.type_data
-    ):
-        if "h" not in function_data:
-            function_data["h"] = {"min": 0, "max": 360}
-        if "s" not in function_data:
-            function_data["s"] = {"min": 0, "max": 255}
-        if "v" not in function_data:
-            function_data["v"] = {"min": 0, "max": 255}
+    if function_data := json.loads(color_data_wrapper.type_information.type_data):
+        h_type = function_data.get("h", {"min": 0, "max": 360})
+        s_type = function_data.get("s", {"min": 0, "max": 255})
+        v_type = function_data.get("v", {"min": 0, "max": 255})
         color_data_wrapper.h_type = RemapHelper.from_function_data(
-            cast(dict[str, Any], function_data["h"]), 0, 360
+            cast(dict[str, Any], h_type), 0, 360
         )
         color_data_wrapper.s_type = RemapHelper.from_function_data(
-            cast(dict[str, Any], function_data["s"]), 0, 100
+            cast(dict[str, Any], s_type), 0, 100
         )
         color_data_wrapper.v_type = RemapHelper.from_function_data(
-            cast(dict[str, Any], function_data["v"]), 0, 255
+            cast(dict[str, Any], v_type), 0, 255
         )
     elif (
         fallback_color_data_mode == FallbackColorDataMode.V2
