@@ -149,7 +149,9 @@ def _get_color_data_wrapper(
         return None
 
     # Fetch color data type information
-    if function_data := json.loads(color_data_wrapper.type_information.type_data):
+    if function_data := json.loads(
+        color_data_wrapper.type_information.type_data
+    ):
         h_type = function_data.get("h", {"min": 0, "max": 360})
         s_type = function_data.get("s", {"min": 0, "max": 255})
         v_type = function_data.get("v", {"min": 0, "max": 255})
