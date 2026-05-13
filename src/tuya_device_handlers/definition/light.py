@@ -126,8 +126,10 @@ def _get_brightness_wrapper(
         device, brightness_min_dpcode, prefer_function=True
     ):
         brightness_wrapper.brightness_min = brightness_min
-        brightness_wrapper.brightness_min_remap = RemapHelper.from_type_information(
-            brightness_min.type_information, 0, 255
+        brightness_wrapper.brightness_min_remap = (
+            RemapHelper.from_type_information(
+                brightness_min.type_information, 0, 255
+            )
         )
     return brightness_wrapper
 
